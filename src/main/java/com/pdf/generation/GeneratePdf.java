@@ -1,25 +1,27 @@
 package com.pdf.generation;
 
+import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import org.apache.pdfbox.io.IOUtils;
+import org.openpdf.text.Document;
+import org.openpdf.text.DocumentException;
+import org.openpdf.text.Element;
+import org.openpdf.text.Font;
+import org.openpdf.text.FontFactory;
+import org.openpdf.text.Image;
+import org.openpdf.text.Paragraph;
+import org.openpdf.text.Phrase;
+import org.openpdf.text.Rectangle;
+import org.openpdf.text.pdf.PdfPCell;
+import org.openpdf.text.pdf.PdfPTable;
+import org.openpdf.text.pdf.PdfWriter;
+import org.openpdf.text.pdf.RGBColor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+
 
 @Component
 public class GeneratePdf implements CommandLineRunner{
@@ -43,7 +45,7 @@ public class GeneratePdf implements CommandLineRunner{
 	        imageWithCaption.addCell(imageCell);
 
 	        // Caption cell
-	        Font captionFont = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12, BaseColor.DARK_GRAY);
+	        Font captionFont = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12, RGBColor.DARK_GRAY);
 	        Paragraph caption = new Paragraph(captionText, captionFont);
 	        caption.setAlignment(Element.ALIGN_CENTER);
 
@@ -74,7 +76,7 @@ public class GeneratePdf implements CommandLineRunner{
 	    document.open();
 
 	    // Body Paragraph
-	    Font bodyFont = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.DARK_GRAY);
+	    Font bodyFont = FontFactory.getFont(FontFactory.COURIER, 12, RGBColor.DARK_GRAY);
 	    Paragraph paragraph = new Paragraph(sb.toString(), bodyFont);
 	    paragraph.setAlignment(Element.ALIGN_LEFT);
 	    paragraph.setSpacingAfter(10);
@@ -100,32 +102,32 @@ public class GeneratePdf implements CommandLineRunner{
 //		table.setWidths(new float[] {100f, 50f, 150f});  // widths in points
 		//Header With Color
 		PdfPCell cell1=new PdfPCell(new Phrase("Id"));
-		cell1.setBackgroundColor(BaseColor.GRAY);
+		cell1.setBackgroundColor(RGBColor.GRAY);
 		table.addCell(cell1);
 		PdfPCell cell2=new PdfPCell(new Phrase("Company Name"));
-		cell2.setBackgroundColor(BaseColor.GRAY);
+		cell2.setBackgroundColor(RGBColor.GRAY);
 		table.addCell(cell2);
 		PdfPCell cell3=new PdfPCell(new Phrase("Company Email"));
-		cell3.setBackgroundColor(BaseColor.GRAY);
+		cell3.setBackgroundColor(RGBColor.GRAY);
 		table.addCell(cell3);
 		
 		// Two colors to alternate
-        BaseColor color1 = new BaseColor(230, 240, 255); // light blue
-        BaseColor color2 = BaseColor.WHITE;
-
+        RGBColor color1 = new RGBColor(230, 240, 255); // light blue
+        RGBColor color2 = new RGBColor(255, 255, 255);
+        
         // Rows with alternating colors
         for (int i = 1; i <= 10; i++) {
-            BaseColor bgColor = (i % 2 == 0) ? color1 : color2;
+            RGBColor bgColor = (i % 2 == 0) ?  color1 : color2;
 
-            PdfPCell c1 = new PdfPCell(new com.itextpdf.text.Phrase(String.valueOf(i)));
+            PdfPCell c1 = new PdfPCell(new Phrase(String.valueOf(i)));
             c1.setBackgroundColor(bgColor);
             table.addCell(c1);
 
-            PdfPCell c2 = new PdfPCell(new com.itextpdf.text.Phrase("Company " + i));
+            PdfPCell c2 = new PdfPCell(new Phrase("Company " + i));
             c2.setBackgroundColor(bgColor);
             table.addCell(c2);
 
-            PdfPCell c3 = new PdfPCell(new com.itextpdf.text.Phrase("company"+i+"@"+"company"+i+".net"));
+            PdfPCell c3 = new PdfPCell(new Phrase("company"+i+"@"+"company"+i+".net"));
             c3.setBackgroundColor(bgColor);
             table.addCell(c3);
         }

@@ -4,25 +4,26 @@ import java.io.InputStream;
 import java.time.LocalDate;
 
 import org.apache.pdfbox.io.IOUtils;
+import org.openpdf.text.Document;
+import org.openpdf.text.Element;
+import org.openpdf.text.Font;
+import org.openpdf.text.FontFactory;
+import org.openpdf.text.Image;
+import org.openpdf.text.Phrase;
+import org.openpdf.text.Rectangle;
+import org.openpdf.text.pdf.ColumnText;
+import org.openpdf.text.pdf.PdfContentByte;
+import org.openpdf.text.pdf.PdfPageEventHelper;
+import org.openpdf.text.pdf.PdfWriter;
+import org.openpdf.text.pdf.RGBColor;
 import org.springframework.stereotype.Component;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfPageEventHelper;
-import com.itextpdf.text.pdf.PdfWriter;
+
 
 @Component
 public class HeaderFooterPageEvent extends PdfPageEventHelper {
-	Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16, BaseColor.BLACK);
-	 Font footerFont = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12, BaseColor.DARK_GRAY);
+	Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16, RGBColor.BLACK);
+	 Font footerFont = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12, RGBColor.DARK_GRAY);
 
 	 @Override
 	 public void onEndPage(PdfWriter writer, Document document) {
@@ -82,13 +83,13 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 	     }
 
 	     // 2. Company Name (Center-aligned)
-	     BaseColor customBlue = new BaseColor(0, 107, 181); // RGB for dark blue
+	     RGBColor customBlue = new RGBColor(0, 107, 181); // RGB for dark blue
 	     Font nameHeaderFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16, customBlue);
 	     Phrase headerPhrase = new Phrase("Truechip Solutions Pvt Ltd", nameHeaderFont);
 	     ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, headerPhrase, centerX, top - 20, 0);
 
 	  // 3. Timestamp (Right-aligned)
-	     Font timeFont = FontFactory.getFont(FontFactory.HELVETICA, 10, BaseColor.DARK_GRAY);
+	     Font timeFont = FontFactory.getFont(FontFactory.HELVETICA, 10, RGBColor.DARK_GRAY);
 
 	     // Format the timestamp
 	     String timestamp = java.time.LocalDateTime.now()
@@ -101,7 +102,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 	     
 	     // 4. Header Separator Line
 	     cb.setLineWidth(1);
-	     cb.setColorStroke(BaseColor.BLACK);
+	     cb.setColorStroke(RGBColor.BLACK);
 	     cb.moveTo(left, pageSize.getTop() - 80);
 	     cb.lineTo(right, pageSize.getTop() - 80);
 	     cb.stroke();
